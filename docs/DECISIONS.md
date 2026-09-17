@@ -3,6 +3,42 @@
 Running log, newest first. Every entry carries a date, the decision, the
 rationale, and a source reference (PROJECT.md Working Rule 6).
 
+### 2026-09-18 — Bedrock smoke-test inference profile pinned: `apac.amazon.nova-lite-v1:0`
+
+**Decision:** The Day-1 Bedrock smoke test (plan 01-02) uses the inference
+profile ID **`apac.amazon.nova-lite-v1:0`**
+(ARN: `arn:aws:bedrock:ap-south-1:038947448788:inference-profile/apac.amazon.nova-lite-v1:0`).
+
+**How it was found:** `aws bedrock list-inference-profiles --region ap-south-1`
+returned 30 profiles; `apac.amazon.nova-lite-v1:0` was `ACTIVE`. Cross-referenced
+against `aws bedrock list-foundation-models --region ap-south-1`, which confirms
+`amazon.nova-lite-v1:0` declares `IMAGE` in `inputModalities` (also `TEXT`,
+`VIDEO`) — an image-capable candidate.
+
+**Destination regions** (parsed from the profile's `models[].modelArn`, i.e.
+every region this specific request may actually be processed in):
+`ap-northeast-1`, `ap-northeast-2`, `ap-northeast-3`, `ap-south-1`,
+`ap-southeast-1`, `ap-southeast-2` — all six are inside the Asia-Pacific
+geography; none are outside India's broader region grouping used by this
+profile's APAC scope (no `us-*`/`eu-*` destination).
+
+**Rationale (D-08 selection order):** Rule 1 of the Task 1 selection order
+prefers an ACTIVE profile whose ID begins with `apac.` over `global.`, because
+APAC-scoped routing keeps processing inside Asia-Pacific rather than any
+commercial region worldwide — a materially smaller data-residency disclosure
+(HANDOFF §8). `apac.amazon.nova-lite-v1:0` satisfied this on the very first
+candidate: it was ACTIVE, `apac.`-scoped, and image-capable, so rules 2 and 3
+of the ordering (Nova-tier preference, Anthropic fallback) were never reached.
+No Anthropic use-case form was needed — Nova unblocked immediately with no
+Marketplace subscription step, exactly as RESEARCH.md's Standard Stack section
+predicted for D-08.
+
+**Outcome:** This choice is the smoke test's only (D-08) — Phase 2's real
+~30-photo evaluation compares Nova Lite against the stronger Anthropic
+candidate independently and may pick differently. Source: D-08; RESEARCH.md
+"Bedrock Model Access on a Fresh Account", "Bedrock Model Availability in
+ap-south-1"; RESEARCH.md Open Question 1 (now closed).
+
 ### 2026-09-18 — Day-1 AWS access uses the new account's ROOT user, not a dedicated IAM user
 
 **Decision:** Task 1 of plan 01-01 originally instructed creating a dedicated
