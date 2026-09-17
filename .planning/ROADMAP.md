@@ -32,10 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. 20-30 test photos of Aaryan's own UPI payments exist (straight-on, ~30° angle, glare, dim light, partly cut off; GPay/PhonePe/Paytm), plus a fixture built from Aaryan's own transaction export for parser development — no real customer data, no fake-screenshot generators, anywhere.
   4. Q1-Q5 have been asked of the restaurant owner; whatever is answered (or still open) is recorded in `.planning/intel/context.md`'s open-questions status, not silently assumed.
   5. Repo exists with a first commit made after kickoff, matching the HANDOFF §11 layout skeleton, with `docs/DECISIONS.md` started (first entries logged per PROJECT.md Working Rule 6).
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Wave 1. AWS toolchain + new-account credentials checkpoint, then the tracer: SAM hello-world deployed to ap-south-1 returning HTTP 200, plus the HANDOFF §11 repo skeleton and `docs/DECISIONS.md` (SC-1, SC-5)
+- [ ] 01-02-PLAN.md — Wave 2. Resolve the exact ap-south-1 Bedrock inference profile, deploy the throwaway S3-bytes-into-Bedrock smoke-test Lambda with least-privilege IAM, invoke it and validate the §7 schema, record the processing region (SC-2, D-05–D-09)
+- [ ] 01-03-PLAN.md — Wave 2. Capture the 20-30 real test photos + transaction export, ask Q1–Q5 and close the HANDOFF §14 logistics items, build the scrubbed credits fixture and record every answer (SC-3, SC-4)
 
 ### Phase 2: Bedrock Extraction Evaluation
 **Goal**: Know, with real measured numbers and before any reconcile-engine code is written on top of it, whether Bedrock vision extraction is accurate enough — and which model to use.
@@ -103,7 +105,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Kickoff | 0/TBD | Not started | - |
+| 1. Foundation & Kickoff | 0/3 | Planned | - |
 | 2. Bedrock Extraction Evaluation | 0/TBD | Not started | - |
 | 3. Parser, Reconcile Engine & Step Functions | 0/TBD | Not started | - |
 | 4. Frontend, Resolve Flow & Rough Submission | 0/TBD | Not started | - |
