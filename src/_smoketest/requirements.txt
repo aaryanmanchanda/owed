@@ -1,0 +1,2 @@
+# boto3 ships in the Lambda managed runtime — no pin needed for this
+# throwaway Phase 1 smoke test (see module docstring in app.py, D-06).

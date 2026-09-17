@@ -31,6 +31,58 @@ Resources:
             Path: /hello
             Method: GET
 
+  # --- Throwaway Phase 1 Bedrock smoke test (D-05/D-06) ---
+  # NOT the production extraction path. Phase 3 builds the real Lambda at
+  # src/extract/. Safe to delete this bucket + function once Phase 1 closes.
+  SmokeTestBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "owed-smoketest-${AWS::AccountId}-${AWS::Region}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireTestObjects
+            Status: Enabled
+            ExpirationInDays: 7
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 1
+
+  BedrockSmokeTestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: owed-bedrock-smoketest
+      CodeUri: src/_smoketest/
+      Handler: app.lambda_handler
+      Timeout: 60
+      MemorySize: 512
+      Environment:
+        Variables:
+          SMOKE_BUCKET: !Ref SmokeTestBucket
+          BEDROCK_PROFILE_ID: apac.amazon.nova-lite-v1:0
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref SmokeTestBucket
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+              Resource:
+                - arn:aws:bedrock:ap-south-1:038947448788:inference-profile/apac.amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-southeast-2::foundation-model/amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-south-1::foundation-model/amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-northeast-2::foundation-model/amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-southeast-1::foundation-model/amazon.nova-lite-v1:0
+                - arn:aws:bedrock:ap-northeast-3::foundation-model/amazon.nova-lite-v1:0
+
 Outputs:
   ApiUrl:
     Description: Invoke URL for the /hello tracer endpoint
@@ -38,3 +90,9 @@ Outputs:
   HelloFunctionName:
     Description: Name of the deployed hello Lambda function
     Value: !Ref HelloWorldFunction
+  SmokeTestBucketName:
+    Description: Name of the throwaway Bedrock smoke-test S3 bucket (Phase 1, D-05/D-06)
+    Value: !Ref SmokeTestBucket
+  SmokeTestFunctionName:
+    Description: Name of the throwaway Bedrock smoke-test Lambda (Phase 1, D-05/D-06)
+    Value: !Ref BedrockSmokeTestFunction
