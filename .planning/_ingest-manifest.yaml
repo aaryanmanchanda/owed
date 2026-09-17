@@ -1,0 +1,4 @@
+docs:
+  - path: HANDOFF.md
+    type: SPEC
+    precedence: 0

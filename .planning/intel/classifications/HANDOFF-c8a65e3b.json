@@ -1,0 +1,33 @@
+{
+  "source_path": "/Users/aaryanmanchanda/Desktop/wemakedevs/HANDOFF.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Handoff: Rider Payment Reconciler (working name)",
+  "summary": "Technical handoff for AWS hackathon project reconciling UPI payment photos against bank records for restaurant delivery riders.",
+  "scope": [
+    "UPI payment verification",
+    "restaurant delivery payment reconciliation",
+    "AWS Lambda",
+    "AWS Step Functions",
+    "Amazon Bedrock",
+    "DynamoDB",
+    "photo extraction",
+    "payment record parsing",
+    "verdict rules engine",
+    "API design",
+    "S3 storage"
+  ],
+  "cross_refs": [
+    "docs/AI_TOOLS.md",
+    "docs/DECISIONS.md",
+    "docs/extraction-eval.md",
+    "template.yaml",
+    "statemachine/recon.asl.json",
+    "README.md",
+    "https://github.com/aws-samples/ocr-with-aws-ai-services"
+  ],
+  "locked": false,
+  "precedence": 0,
+  "notes": ""
+}
