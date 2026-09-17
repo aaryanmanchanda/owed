@@ -16,10 +16,12 @@ Prove the AWS plumbing works end-to-end, get the two build-blocking open questio
 ### Timeline reality check
 - **D-01:** Today is confirmed **Friday 2026-09-18** (day 2 of the hackathon), not Sunday. HANDOFF.md's Thu/Fri/Sat/Sun phase mapping still holds; Phase 1 (originally "Thursday") is starting a day behind schedule, not on a compressed same-day deadline. "We need momentum" reflects urgency from being a day behind, not a calendar emergency. — **Reversibility:** reversible
 
-### AWS account blocker (new — not in original HANDOFF.md)
-- **D-02:** Aaryan's AWS account is currently **suspended** (unpaid balance after a free-trial period ended) — not merely short on the promised $100 hackathon credit. This is a hard blocker: nothing can be deployed, including free-tier-eligible resources, until the account is reactivated.
-- **D-03:** Resolution path is **unresolved / waiting to hear back** — no firm ETA. Do not assume a same-day fix. Phase 1 (and downstream phases) must track this as an active, non-Claude-actionable blocker in STATE.md until closed.
-- **D-04:** While blocked, Phase 1 proceeds with everything that does **not** require AWS: repo skeleton + first commit, `docs/DECISIONS.md` bootstrap, capturing the 20-30 test photos, and messaging/asking Hotel Brindhavan's owner Q1-Q5. The AWS-dependent success criteria (SAM hello-world deploy, Bedrock model access, the smoke test below) become a gated sub-track that resumes the moment the account unblocks — they are not skipped or descoped, just sequenced after the account issue clears. — **Reversibility:** reversible (pure sequencing choice, no artifact depends on it)
+### AWS account blocker (new — not in original HANDOFF.md) — RESOLVED 2026-09-18
+- **D-02:** Aaryan's original AWS account was **suspended** (unpaid balance after a free-trial period ended) — not merely short on the promised $100 hackathon credit. This was a hard blocker: nothing could be deployed, including free-tier-eligible resources, until an account was usable.
+- **D-03 (RESOLVED):** Aaryan provisioned a **new AWS free-tier account under a different email** on 2026-09-18. The AWS-dependent success criteria are no longer gated — they can proceed on the new account. Two follow-on items to verify, not yet confirmed:
+  - Whether Builder Center student verification (HANDOFF §14) needs to be redone under the new account's email.
+  - Whether the new account is eligible for the hackathon's $100 AWS credit, or whether Phase 2's evaluation costs come out of free-tier/personal spend instead.
+- **D-04 (superseded by resolution):** Phase 1 no longer needs to sequence AWS-dependent work after non-AWS work — both tracks can proceed in parallel now that an account exists. Still worth doing the non-AWS work (repo skeleton, `docs/DECISIONS.md`, test photos, Q1-Q5 outreach) without waiting on AWS console access, since Bedrock model access approval on a brand-new account may not be instant. — **Reversibility:** reversible
 
 ### Bedrock risk retirement (Day 1 smoke test)
 - **D-05:** Add a **Bedrock smoke test to Phase 1** (originally Phase 1 only required confirming *access*, not a real invocation). This retires HANDOFF §13 risk #2 (IAM + passing S3 image bytes into Bedrock inside Step Functions is the steepest learning curve) a day early, without building Phase 2's real evaluation harness.

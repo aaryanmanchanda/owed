@@ -70,7 +70,10 @@ None yet.
 
 ### Blockers/Concerns
 
-- **AWS account is suspended** (unpaid balance after free trial ended, discovered 2026-09-18 during Phase 1 discuss) — hard blocker on every AWS-dependent Phase 1 success criterion (SAM hello-world deploy, Bedrock model access, the Day-1 Bedrock smoke test added in 01-CONTEXT.md). Resolution is unresolved / no firm ETA. Non-AWS Phase 1 work (repo skeleton, docs/DECISIONS.md, test photos, Q1-Q5 outreach) proceeds regardless. This is the most urgent open item — re-check before every AWS-touching plan step.
+- **RESOLVED 2026-09-18**: original AWS account was suspended (unpaid balance after free trial ended). Aaryan provisioned a **new AWS free-tier account under a different email** the same day. AWS-dependent Phase 1 success criteria (SAM hello-world deploy, Bedrock model access, Day-1 Bedrock smoke test) can now proceed on the new account. **New open risks introduced by the account swap** — verify before treating this as fully closed:
+  - Builder Center student verification (HANDOFF §14 pre-event checklist) may be tied to the original email — check whether it needs re-doing under the new account.
+  - The hackathon's $100 AWS credit signup flow may be tied to the original registration email — confirm the new account is eligible, or budget Phase 2's evaluation costs against free-tier/personal spend if not.
+  - Fresh accounts often need Bedrock model access explicitly requested per model per region — this is already Phase 1 success criterion #2, but budget real time for the approval to land (it isn't always instant).
 - **Timeline note**: confirmed 2026-09-18 is Friday (day 2), not Sunday — Phase 1 (originally "Thursday" work) is starting a day behind schedule. No replan needed, just move with urgency.
 - **Q1 (payment-record format) is unanswered** — Phase 3's parser must be built behind an interface, using a fixture from Aaryan's own transaction export, until Q1 is answered. This is HANDOFF's own top build-risk (§13 risk #3).
 - **Q2-Q5 are unanswered** — Q2 affects timestamp handling (use on-screen `screen_time`, never file metadata, regardless of answer); Q3 affects scale/demo realism; Q4 is the video's opening 20 seconds; Q5 gates whether the restaurant/owner can be named/filmed. None should be assumed — Phase 1 asks them.
