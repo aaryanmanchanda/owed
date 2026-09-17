@@ -36,12 +36,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Q1-Q5 have been asked of the restaurant owner; whatever is answered (or still open) is recorded in `.planning/intel/context.md`'s open-questions status, not silently assumed.
   5. Repo exists with a first commit made after kickoff, matching the HANDOFF §11 layout skeleton, with `docs/DECISIONS.md` started (first entries logged per PROJECT.md Working Rule 6).
 
-**Plans**: 3 plans
+**Plans**: 1/3 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Wave 1. AWS toolchain + new-account credentials checkpoint, then the tracer: SAM hello-world deployed to ap-south-1 returning HTTP 200, plus the HANDOFF §11 repo skeleton and `docs/DECISIONS.md` (SC-1, SC-5)
+- [x] 01-01-PLAN.md — Wave 1. AWS toolchain + new-account credentials checkpoint, then the tracer: SAM hello-world deployed to ap-south-1 returning HTTP 200, plus the HANDOFF §11 repo skeleton and `docs/DECISIONS.md` (SC-1, SC-5)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -130,7 +130,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Kickoff | 0/3 | Planned | - |
+| 1. Foundation & Kickoff | 1/3 | In Progress|  |
 | 2. Bedrock Extraction Evaluation | 0/TBD | Not started | - |
 | 3. Parser, Reconcile Engine & Step Functions | 0/TBD | Not started | - |
 | 4. Frontend, Resolve Flow & Rough Submission | 0/TBD | Not started | - |
