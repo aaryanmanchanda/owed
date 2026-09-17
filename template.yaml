@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  owed - batch reconciliation tool for Hotel Brindhavan's rider UPI payments.
+  This template's Phase 1 tracer proves the API Gateway (HTTP API) -> Lambda
+  path deploys and answers in ap-south-1; later phases extend it.
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: python3.13
+    Architectures:
+      - arm64
+
+Resources:
+  OwedHttpApi:
+    Type: AWS::Serverless::HttpApi
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: owed-hello
+      CodeUri: src/api/hello/
+      Handler: app.lambda_handler
+      Events:
+        HelloGet:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref OwedHttpApi
+            Path: /hello
+            Method: GET
+
+Outputs:
+  ApiUrl:
+    Description: Invoke URL for the /hello tracer endpoint
+    Value: !Sub "https://${OwedHttpApi}.execute-api.${AWS::Region}.amazonaws.com/hello"
+  HelloFunctionName:
+    Description: Name of the deployed hello Lambda function
+    Value: !Ref HelloWorldFunction

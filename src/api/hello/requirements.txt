@@ -1,0 +1,2 @@
+# boto3 ships in the Lambda managed Python runtime; this handler makes no
+# AWS API calls, so no dependencies are pinned here.
