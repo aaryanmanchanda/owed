@@ -3,6 +3,45 @@
 Running log, newest first. Every entry carries a date, the decision, the
 rationale, and a source reference (PROJECT.md Working Rule 6).
 
+### 2026-09-19 — Phase 3's pure reconcile engine started ahead of Phase 2
+
+**Decision:** `src/common/models.py` and `src/reconcile/engine.py` (the §7
+verdict engine) were written and unit-tested today, before Phase 2's Bedrock
+extraction evaluation has run.
+
+**Rationale:** Phase 1's remaining work (01-02's Bedrock invoke, 01-03's
+20-30 photo set) is blocked on external factors — an AWS account-verification
+hold and a scheduled data-curation session, respectively — with real
+downtime while waiting. The reconcile engine's §7 verdict rules are locked in
+HANDOFF.md independent of which Bedrock model Phase 2 eventually picks; only
+extraction *accuracy* depends on that choice, not the verdict logic itself.
+The roadmap otherwise treats phase order as "a hard prerequisite gate, not
+just a suggestion" — this is a deliberate, logged exception for one piece
+that is genuinely decoupled, not a general license to skip ahead.
+
+**What was built:** `PhotoExtraction`/`CreditRecord`/`ClaimInfo` domain types
+with code-side validation of `utr` (`^\d{12}$`) and `amount_inr` (positive,
+≤2 decimals) per §7's "never trusted from the model" rule; `reconcile_shift()`
+implementing all nine verdicts (`NOT_SUCCESS`, `UNREADABLE`, `DUPLICATE`,
+`VERIFIED`, `AMOUNT_MISMATCH`, `PROBABLE`, `AMBIGUOUS`, `NOT_FOUND`,
+`UNCLAIMED_CREDIT`) in the table's stated rule order, with photos always
+processed sorted by `(screen_time, photo_id)` for deterministic duplicate
+resolution. 23 unit tests in `tests/unit/test_reconcile.py` cover every
+verdict, the misread-safety guarantee (a fabricated-but-well-formed UTR
+matches by amount+time instead of falsely resolving `NOT_FOUND`),
+idempotent re-run, same-bytes-uploaded-twice dedup, cash-owed min/max
+ranging, and shuffled-input ordering — all passing, no AWS/Bedrock calls.
+
+**Explicitly NOT built yet:** the DynamoDB claim/conditional-write layer and
+its concurrency test (§10) — HANDOFF §11 keeps that deliberately separate
+from the pure engine, and it needs real Phase 3 planning (table design,
+`moto`/DynamoDB Local in `requirements-dev.txt`) rather than being folded into
+this session's scope.
+
+**Outcome:** Available for Phase 3 once Phase 2 completes; nothing here
+blocks or is blocked by Phase 2's model choice. Source: this session; HANDOFF
+§7, §9, §10, §11.
+
 ### 2026-09-18 — Bedrock smoke-test inference profile pinned: `apac.amazon.nova-lite-v1:0`
 
 **Decision:** The Day-1 Bedrock smoke test (plan 01-02) uses the inference
